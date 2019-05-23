@@ -3,7 +3,10 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
+	"os/signal"
+	"syscall"
 )
 
 // Run _
@@ -18,4 +21,28 @@ func Run(command string) string {
 	}
 
 	return fmt.Sprintf("%s", out)
+}
+
+// WaitForInterrupt _
+func WaitForInterrupt() chan bool {
+	signal.Ignore(os.Interrupt)
+	signal.Ignore(syscall.SIGINT)
+	sigc := make(chan os.Signal, 1)
+	signal.Notify(sigc,
+		os.Interrupt,
+		syscall.SIGHUP,
+		syscall.SIGINT,
+		syscall.SIGTERM,
+		syscall.SIGQUIT)
+
+	wait := make(chan bool, 1)
+
+	go func() {
+		for range sigc {
+			wait <- true
+		}
+	}()
+
+	return wait
+
 }

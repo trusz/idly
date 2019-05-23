@@ -1,13 +1,27 @@
 package main
 
 import (
-	"log"
+	"github.com/trusz/idly/src/logger"
+	"github.com/trusz/idly/src/monitoring"
 
-	"github.com/trusz/idly/src/info"
+	"github.com/trusz/idly/src/cmd"
 )
 
 func main() {
-	log.Println("Hello, World!")
-	info.ActiveApp()
-	info.IdleTime()
+	var eventChannel = make(chan monitoring.Event)
+
+	go func() {
+		monitoring.StartActiveAppMonitoring(&eventChannel)
+	}()
+
+	go func() {
+		monitoring.StartIdleMonitoring(&eventChannel)
+	}()
+
+	go func() {
+		logger.StartLogger(&eventChannel)
+	}()
+
+	<-cmd.WaitForInterrupt()
+
 }
