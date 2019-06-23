@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/trusz/idly/src/cmd"
+	"github.com/trusz/idly/src/tracking/cmd"
 )
 
 // ActiveApp _

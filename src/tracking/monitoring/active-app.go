@@ -3,7 +3,7 @@ package monitoring
 import (
 	"time"
 
-	"github.com/trusz/idly/src/info"
+	"github.com/trusz/idly/src/tracking/info"
 )
 
 // StartActiveAppMonitoring _
@@ -24,6 +24,7 @@ func StartActiveAppMonitoring(eventChannel *chan Event) {
 
 // AppEvent _
 type AppEvent struct {
+	Event
 	App string
 }
 

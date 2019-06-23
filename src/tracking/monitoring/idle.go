@@ -3,7 +3,7 @@ package monitoring
 import (
 	"time"
 
-	"github.com/trusz/idly/src/info"
+	"github.com/trusz/idly/src/tracking/info"
 )
 
 // StartIdleMonitoring _
@@ -28,6 +28,7 @@ func StartIdleMonitoring(eventChannel *chan Event) {
 
 // IdleEvent _
 type IdleEvent struct {
+	Event
 	IsIdle bool
 }
 
