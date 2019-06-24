@@ -10,7 +10,10 @@ import (
 )
 
 // StartLogger _
-func StartLogger(eventChannel *chan monitoring.Event, storage io.Writer) {
+func StartLogger(
+	eventChannel *chan monitoring.Event,
+	storage io.Writer,
+) {
 	for true {
 		event := readFromChannel(eventChannel)
 		logEntry := renderEvent(event)

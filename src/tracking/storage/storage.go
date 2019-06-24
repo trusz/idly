@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"io/ioutil"
+	"os"
 )
 
 // Storage _
@@ -19,9 +19,19 @@ func New() Storage {
 }
 
 func (s Storage) Write(p []byte) (n int, err error) {
-	err = ioutil.WriteFile(s.storageFilePath, p, 0644)
+
+	f, err := os.OpenFile(s.storageFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return 0, err
+		return -1, nil
 	}
+
+	if _, err := f.Write(p); err != nil {
+		return -1, nil
+	}
+	if err := f.Close(); err != nil {
+		return -1, nil
+	}
+
 	return len(p), nil
+
 }

@@ -12,7 +12,7 @@ import (
 const folderName = ".idly"
 const defaultContent = "[]"
 
-var folderPath = homeFolder() + "/" + folderName
+var folderPath = baseFolder() + "/" + folderName
 
 func ensureFolderExists(path string) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -65,10 +65,10 @@ func readFile(path string) []byte {
 	return content
 }
 
-func homeFolder() string {
+func baseFolder() string {
 	usr, err := user.Current()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return usr.HomeDir
 }
